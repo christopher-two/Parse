@@ -59,7 +59,8 @@ fun SettingsScreen(
     val globalNavigator = koinInject<GlobalNavigator>()
     Scaffold(
         modifier = Modifier
-            .fillMaxSize(),
+            .fillMaxSize()
+            .padding(horizontal = 16.dp),
         topBar = {
             TopAppBar(
                 navigationIcon = {

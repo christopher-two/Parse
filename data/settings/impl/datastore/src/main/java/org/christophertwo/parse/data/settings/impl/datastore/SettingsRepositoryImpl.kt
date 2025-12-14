@@ -2,32 +2,32 @@ package org.christophertwo.parse.data.settings.impl.datastore
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
-import kotlinx.coroutines.flow.firstOrNull
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.emptyPreferences
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.map
 import org.christophertwo.parse.data.settings.api.PreferencesKeys
 import org.christophertwo.parse.data.settings.api.SettingsRepository
+import java.io.IOException
 
 class SettingsRepositoryImpl(
     private val dataStore: DataStore<Preferences>
 ) : SettingsRepository {
-    override suspend fun darkTheme(): Result<Boolean> {
-        return try {
-            val darkTheme = dataStore.data.firstOrNull()?.get(PreferencesKeys.DARK_THEME) ?: true
-            Result.success(darkTheme)
-        } catch (e: Exception) {
-            Result.failure(e)
-        }
-    }
-
-    override suspend fun setDarkTheme(value: Boolean): Result<Unit> {
-        return try {
-            dataStore.updateData { preferences ->
-                preferences.toMutablePreferences().apply {
-                    this[PreferencesKeys.DARK_THEME] = value
-                }
+    override fun darkTheme(): Flow<Boolean> = dataStore.data
+        .catch { exception ->
+            if (exception is IOException) {
+                emit(emptyPreferences())
+            } else {
+                throw exception
             }
-            Result.success(Unit)
-        } catch (e: Exception) {
-            Result.failure(e)
+        }.map { preferences ->
+            preferences[PreferencesKeys.DARK_THEME] ?: true
+        }
+
+    override suspend fun setDarkTheme(value: Boolean) {
+        dataStore.edit { preferences ->
+            preferences[PreferencesKeys.DARK_THEME] = value
         }
     }
 }

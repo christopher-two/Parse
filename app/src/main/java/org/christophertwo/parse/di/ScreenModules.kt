@@ -1,5 +1,6 @@
 package org.christophertwo.parse.di
 
+import org.christophertwo.parse.StartupViewModel
 import org.christophertwo.parse.core.common.RouteGlobal
 import org.christophertwo.parse.core.common.RouteHome
 import org.christophertwo.parse.feature.books.presentation.BooksRoot
@@ -29,4 +30,6 @@ val ScreenModules: Module
         viewModelOf(::HomeViewModel)
         viewModelOf(::BooksViewModel)
         viewModelOf(::SettingsViewModel)
+
+        viewModelOf(::StartupViewModel)
     }

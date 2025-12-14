@@ -1,18 +1,12 @@
 package org.christophertwo.parse.feature.settings.domain
 
+import kotlinx.coroutines.flow.Flow
 import org.christophertwo.parse.data.settings.api.SettingsRepository
 
 class IsDarkThemeUseCase(
     private val settingsRepository: SettingsRepository
 ) {
-    suspend operator fun invoke(): Boolean {
-        settingsRepository.darkTheme()
-            .onSuccess {
-                return it
-            }
-            .onFailure {
-                return false
-            }
-        return false
+    operator fun invoke(): Flow<Boolean> {
+        return settingsRepository.darkTheme()
     }
 }
