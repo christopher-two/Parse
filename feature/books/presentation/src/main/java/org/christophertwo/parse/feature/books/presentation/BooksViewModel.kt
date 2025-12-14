@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 
 class BooksViewModel : ViewModel() {
 
@@ -34,7 +35,14 @@ class BooksViewModel : ViewModel() {
             is BooksAction.RemoveBook -> {
 
             }
+
+            is BooksAction.SelectBook -> {
+                _state.update {
+                    it.copy(
+                        selectedBook = action.book
+                    )
+                }
+            }
         }
     }
-
 }

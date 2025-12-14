@@ -47,9 +47,18 @@ dependencies {
     implementation(project(":core:ui"))
     implementation(project(":core:common"))
 
+    implementation(project(":data:settings:api"))
+    implementation(project(":data:settings:impl:datastore"))
+
     implementation(project(":feature:navigation"))
+
     implementation(project(":feature:home:presentation"))
+
     implementation(project(":feature:books:presentation"))
+    implementation(project(":feature:books:domain"))
+
+    implementation(project(":feature:settings:presentation"))
+    implementation(project(":feature:settings:domain"))
 
     // Compose
     implementation(libs.androidx.core.ktx)

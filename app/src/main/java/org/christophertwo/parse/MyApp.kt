@@ -1,6 +1,8 @@
 package org.christophertwo.parse
 
 import android.app.Application
+import org.christophertwo.parse.di.DataModule
+import org.christophertwo.parse.di.DomainModule
 import org.christophertwo.parse.di.ScreenModules
 import org.christophertwo.parse.feature.navigation.di.NavModule
 import org.koin.android.ext.koin.androidContext
@@ -15,7 +17,9 @@ class MyApp : Application(), KoinComponent {
             modules(
                 listOf(
                     NavModule,
-                    ScreenModules
+                    ScreenModules,
+                    DomainModule,
+                    DataModule
                 )
             )
         }

@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -28,6 +27,7 @@ import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import org.christophertwo.parse.core.common.RouteGlobal
 import org.christophertwo.parse.core.ui.ParseTheme
+import org.christophertwo.parse.feature.navigation.navigator.GlobalNavigator
 import org.christophertwo.parse.feature.navigation.navigator.HomeNavigator
 import org.koin.compose.koinInject
 import org.koin.compose.navigation3.koinEntryProvider
@@ -52,6 +52,7 @@ fun HomeScreen(
     onAction: (HomeAction) -> Unit,
 ) {
     val homeNavigator = koinInject<HomeNavigator>()
+    val globalNavigator = koinInject<GlobalNavigator>()
     val entryProvider = koinEntryProvider()
 
     Scaffold(
@@ -59,26 +60,10 @@ fun HomeScreen(
         topBar = {
             TopAppBar(
                 title = { Text("Parse") },
-                navigationIcon = {
-                    if (homeNavigator.currentStack != listOf(RouteGlobal.Home)) {
-                        IconButton(
-                            onClick = {
-                                homeNavigator.back()
-                            },
-                            content = {
-                                Icon(
-                                    imageVector = Icons.Filled.ArrowBackIosNew,
-                                    contentDescription = "Back",
-                                    modifier = Modifier.size(24.dp)
-                                )
-                            }
-                        )
-                    }
-                },
                 actions = {
                     IconButton(
                         onClick = {
-                            homeNavigator.navigateTo(RouteGlobal.Settings)
+                            globalNavigator.navigateTo(RouteGlobal.Settings)
                         },
                         content = {
                             Icon(

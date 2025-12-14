@@ -5,4 +5,5 @@ import org.christophertwo.parse.feature.books.domain.Book
 sealed interface BooksAction {
     object AddBook : BooksAction
     data class RemoveBook(val book: Book) : BooksAction
+    data class SelectBook(val book: Book) : BooksAction
 }
