@@ -30,4 +30,21 @@ class SettingsRepositoryImpl(
             preferences[PreferencesKeys.DARK_THEME] = value
         }
     }
+
+    override fun themeSystem(): Flow<Boolean> = dataStore.data
+        .catch { exception ->
+            if (exception is IOException) {
+                emit(emptyPreferences())
+            } else {
+                throw exception
+            }
+        }.map { preferences ->
+            preferences[PreferencesKeys.THEME_SYSTEM] ?: true
+        }
+
+    override suspend fun setThemeSystem(value: Boolean) {
+        dataStore.edit { preferences ->
+            preferences[PreferencesKeys.THEME_SYSTEM] = value
+        }
+    }
 }

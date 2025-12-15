@@ -1,7 +1,6 @@
 package org.christophertwo.parse.feature.settings.presentation
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -34,7 +33,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.christophertwo.parse.core.ui.ParseTheme
-import org.christophertwo.parse.core.ui.shimmer
 import org.christophertwo.parse.feature.navigation.navigator.GlobalNavigator
 import org.koin.compose.koinInject
 
@@ -58,9 +56,7 @@ fun SettingsScreen(
 ) {
     val globalNavigator = koinInject<GlobalNavigator>()
     Scaffold(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(horizontal = 16.dp),
+        modifier = Modifier.fillMaxSize(),
         topBar = {
             TopAppBar(
                 navigationIcon = {
@@ -84,35 +80,40 @@ fun SettingsScreen(
     ) { paddingValues ->
         Column(
             modifier = Modifier
+                .padding(horizontal = 16.dp)
                 .fillMaxSize()
                 .padding(paddingValues)
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Top
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            state.darkTheme?.let {
-                SettingsSwitch(
-                    title = "Dark Theme",
-                    checked = it,
-                    onCheckedChange = { checked ->
-                        onAction(SettingsAction.SetDarkTheme(checked))
-                    }
-                )
-            } ?: run {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(150.dp)
-                        .shimmer(),
-                )
-            }
+            SettingsSwitch(
+                title = "Theme System",
+                checked = state.themeSystem,
+                onCheckedChange = { checked ->
+                    onAction(SettingsAction.SetThemeSystem(checked))
+                }
+            )
+            SettingsSwitch(
+                title = "Dark Theme",
+                checked = state.darkTheme,
+                enabled = !state.themeSystem,
+                onCheckedChange = { checked ->
+                    onAction(SettingsAction.SetDarkTheme(checked))
+                }
+            )
         }
     }
 }
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
-fun SettingsSwitch(title: String, checked: Boolean, onCheckedChange: (Boolean) -> Unit) {
+fun SettingsSwitch(
+    title: String,
+    checked: Boolean,
+    enabled: Boolean = true,
+    onCheckedChange: (Boolean) -> Unit
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -135,6 +136,7 @@ fun SettingsSwitch(title: String, checked: Boolean, onCheckedChange: (Boolean) -
         ) {
             Text(text = title)
             Switch(
+                enabled = enabled,
                 checked = checked,
                 onCheckedChange = {
                     onCheckedChange(it)

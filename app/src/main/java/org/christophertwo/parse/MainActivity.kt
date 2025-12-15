@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -16,22 +17,26 @@ class MainActivity : ComponentActivity() {
         val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
         setContent {
             val viewModel: StartupViewModel = koinViewModel()
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
             splashScreen.setKeepOnScreenCondition { uiState is StartupUiState.Loading }
 
-            val useDarkTheme = when (val state = uiState) {
-                is StartupUiState.Success -> state.isDarkTheme
-                is StartupUiState.Loading -> isSystemInDarkTheme()
-            }
+            val darkTheme = shouldUseDarkTheme(uiState)
 
             ParseTheme(
-                isDark = useDarkTheme
+                isDark = darkTheme
             ) {
                 RootNavigationWrapper()
             }
         }
+    }
+
+    @Composable
+    private fun shouldUseDarkTheme(uiState: StartupUiState): Boolean = when (uiState) {
+        is StartupUiState.Loading -> isSystemInDarkTheme()
+        is StartupUiState.Success -> if (uiState.useSystemTheme) isSystemInDarkTheme() else uiState.isDarkTheme
     }
 }
