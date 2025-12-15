@@ -43,8 +43,6 @@ class HomeViewModel : ViewModel() {
                         bookDownloaded = false,
                         bookUri = "",
                         titleBook = "",
-                        authorBook = "",
-                        yearBook = "",
                         imageBook = null,
                         bookSelected = null
                     )
@@ -80,22 +78,6 @@ class HomeViewModel : ViewModel() {
                 _state.update {
                     it.copy(
                         bookDownloaded = true
-                    )
-                }
-            }
-
-            is HomeAction.UpdateBookAuthor -> {
-                _state.update {
-                    it.copy(
-                        authorBook = action.author
-                    )
-                }
-            }
-
-            is HomeAction.UpdateBookYear -> {
-                _state.update {
-                    it.copy(
-                        yearBook = action.year
                     )
                 }
             }
