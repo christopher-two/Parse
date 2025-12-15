@@ -1,8 +1,8 @@
 package org.christophertwo.parse.di
 
 import org.christophertwo.parse.StartupViewModel
-import org.christophertwo.parse.core.common.RouteGlobal
-import org.christophertwo.parse.core.common.RouteHome
+import org.christophertwo.parse.core.common.route.RouteGlobal
+import org.christophertwo.parse.core.common.route.RouteHome
 import org.christophertwo.parse.feature.books.presentation.BooksRoot
 import org.christophertwo.parse.feature.books.presentation.BooksViewModel
 import org.christophertwo.parse.feature.home.presentation.HomeRoot

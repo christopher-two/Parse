@@ -1,6 +1,6 @@
 package org.christophertwo.parse.feature.books.presentation
 
-import org.christophertwo.parse.feature.books.domain.Book
+import org.christophertwo.parse.core.common.model.Book
 
 sealed interface BooksAction {
     object AddBook : BooksAction

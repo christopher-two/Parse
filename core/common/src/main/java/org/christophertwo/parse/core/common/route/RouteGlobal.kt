@@ -1,4 +1,4 @@
-package org.christophertwo.parse.core.common
+package org.christophertwo.parse.core.common.route
 
 import androidx.navigation3.runtime.NavKey
 import kotlinx.serialization.Serializable

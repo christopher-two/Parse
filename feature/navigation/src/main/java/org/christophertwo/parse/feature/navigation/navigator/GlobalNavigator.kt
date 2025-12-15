@@ -2,7 +2,7 @@ package org.christophertwo.parse.feature.navigation.navigator
 
 import androidx.compose.runtime.mutableStateListOf
 import androidx.navigation3.runtime.NavKey
-import org.christophertwo.parse.core.common.RouteGlobal
+import org.christophertwo.parse.core.common.route.RouteGlobal
 
 class GlobalNavigator {
     private val _rootBackStack = mutableStateListOf<NavKey>(RouteGlobal.Home)

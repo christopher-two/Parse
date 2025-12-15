@@ -55,6 +55,8 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.compose.material3.android)
     implementation(libs.material.icons.ext)
+    implementation(libs.coil.compose)
+    implementation(libs.coil.network)
 
     //Nav 3
     implementation(libs.androidx.navigation3.ui)
