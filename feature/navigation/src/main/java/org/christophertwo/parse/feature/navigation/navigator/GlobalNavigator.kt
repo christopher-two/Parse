@@ -17,8 +17,8 @@ class GlobalNavigator {
         _rootBackStack.add(route)
     }
 
-    fun navigateToSettings() {
-        navigateTo(RouteGlobal.Settings)
+    fun navigateBook(id: String) {
+        _rootBackStack.add(RouteGlobal.Book(id))
     }
 
     fun backTo(targetScreen: NavKey) {

@@ -3,6 +3,8 @@ package org.christophertwo.parse.di
 import org.christophertwo.parse.StartupViewModel
 import org.christophertwo.parse.core.common.route.RouteGlobal
 import org.christophertwo.parse.core.common.route.RouteHome
+import org.christophertwo.parse.feature.book.presentation.BookRoot
+import org.christophertwo.parse.feature.book.presentation.BookViewModel
 import org.christophertwo.parse.feature.books.presentation.BooksRoot
 import org.christophertwo.parse.feature.books.presentation.BooksViewModel
 import org.christophertwo.parse.feature.home.presentation.HomeRoot
@@ -12,7 +14,9 @@ import org.christophertwo.parse.feature.settings.presentation.SettingsViewModel
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 import org.koin.core.module.Module
+import org.koin.core.module.dsl.viewModel
 import org.koin.core.module.dsl.viewModelOf
+import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module
 import org.koin.dsl.navigation3.navigation
 
@@ -22,6 +26,13 @@ val ScreenModules: Module
         // Global
         navigation<RouteGlobal.Home> { HomeRoot(viewModel = koinViewModel()) }
         navigation<RouteGlobal.Settings> { SettingsRoot(viewModel = koinViewModel()) }
+        navigation<RouteGlobal.Book> { route ->
+            BookRoot(
+                viewModel = koinViewModel {
+                    parametersOf(route.id)
+                }
+            )
+        }
 
         // Home
         navigation<RouteHome.Books> { BooksRoot(viewModel = koinViewModel()) }
@@ -30,6 +41,11 @@ val ScreenModules: Module
         viewModelOf(::HomeViewModel)
         viewModelOf(::BooksViewModel)
         viewModelOf(::SettingsViewModel)
+        viewModel { params ->
+            BookViewModel(
+                id = params.get()
+            )
+        }
 
         viewModelOf(::StartupViewModel)
     }
