@@ -6,9 +6,11 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.flow.update
+import org.christophertwo.parse.feature.navigation.navigator.GlobalNavigator
 
-class BooksViewModel : ViewModel() {
+class BooksViewModel(
+    private val globalNavigator: GlobalNavigator
+) : ViewModel() {
 
     private var hasLoadedInitialData = false
 
@@ -37,11 +39,7 @@ class BooksViewModel : ViewModel() {
             }
 
             is BooksAction.SelectBook -> {
-                _state.update {
-                    it.copy(
-                        selectedBook = action.book
-                    )
-                }
+                globalNavigator.navigateBook(action.book.id)
             }
         }
     }

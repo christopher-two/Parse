@@ -43,7 +43,7 @@ fun HomeRoot(
     ExperimentalMaterial3ExpressiveApi::class
 )
 @Composable
-fun HomeScreen(
+internal fun HomeScreen(
     state: HomeState,
     onAction: (HomeAction) -> Unit,
 ) {
@@ -64,7 +64,7 @@ fun HomeScreen(
                     Icon(
                         imageVector = Icons.Filled.Add,
                         contentDescription = "Add book",
-                        modifier = Modifier.size(24.dp)
+                        modifier = Modifier.size(32.dp)
                     )
                 }
             )

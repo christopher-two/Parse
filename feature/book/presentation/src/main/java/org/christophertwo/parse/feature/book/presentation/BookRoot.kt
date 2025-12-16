@@ -13,6 +13,7 @@ import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FloatingToolbarDefaults
+import androidx.compose.material3.FloatingToolbarExitDirection
 import androidx.compose.material3.FloatingToolbarHorizontalFabPosition
 import androidx.compose.material3.HorizontalFloatingToolbar
 import androidx.compose.material3.Icon
@@ -25,6 +26,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
+import androidx.compose.material3.rememberFloatingToolbarState
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.material3.toShape
 import androidx.compose.runtime.Composable
@@ -57,7 +59,12 @@ fun BookScreen(
     state: BookState,
     onAction: (BookAction) -> Unit,
 ) {
+    val stateToolbar = rememberFloatingToolbarState()
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
+    val toolbarScrollBehavior = FloatingToolbarDefaults.exitAlwaysScrollBehavior(
+        exitDirection = FloatingToolbarExitDirection.Bottom,
+        state = stateToolbar
+    )
 
     var expanded by remember { mutableStateOf(false) }
 
@@ -67,6 +74,7 @@ fun BookScreen(
         floatingActionButton = {
             HorizontalFloatingToolbar(
                 expanded = expanded,
+                scrollBehavior = toolbarScrollBehavior,
                 floatingActionButton = {
                     MediumExtendedFloatingActionButton(
                         icon = {
@@ -81,13 +89,16 @@ fun BookScreen(
                         modifier = Modifier,
                         expanded = expanded,
                         shape = MaterialShapes.Cookie6Sided.toShape(),
-                        containerColor = colorScheme.primaryContainer,
-                        contentColor = colorScheme.onPrimaryContainer,
-                        text = { Text("Editar") }
+                        containerColor = colorScheme.surfaceContainer,
+                        contentColor = colorScheme.onSurface,
+                        text = {
+                            Text(
+                                text = "Editar",
+                            )
+                        }
                     )
                 },
-                modifier = Modifier.fillMaxWidth(),
-                colors = FloatingToolbarDefaults.vibrantFloatingToolbarColors(),
+                colors = FloatingToolbarDefaults.standardFloatingToolbarColors(),
                 contentPadding = PaddingValues(8.dp),
                 floatingActionButtonPosition = FloatingToolbarHorizontalFabPosition.End,
                 animationSpec = motionScheme.slowSpatialSpec(),
@@ -116,7 +127,7 @@ fun BookScreen(
 @Composable
 fun BookTopBar(scrollBehavior: TopAppBarScrollBehavior) {
     CenterAlignedTopAppBar(
-        title = { Text("Mis Libros") },
+        title = { Text("Capitulo 1") },
         scrollBehavior = scrollBehavior
     )
 }
@@ -129,7 +140,7 @@ fun BookContent(paddingValues: PaddingValues) {
     ) {
         items(50) { index ->
             Text(
-                text = "Libro #$index",
+                text = "Parrafo #$index",
                 modifier = Modifier.padding(16.dp)
             )
         }
