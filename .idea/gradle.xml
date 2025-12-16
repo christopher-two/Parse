@@ -24,6 +24,8 @@
             <option value="$PROJECT_DIR$/domain/usecase" />
             <option value="$PROJECT_DIR$/feature" />
             <option value="$PROJECT_DIR$/feature/book" />
+            <option value="$PROJECT_DIR$/feature/book/data" />
+            <option value="$PROJECT_DIR$/feature/book/domain" />
             <option value="$PROJECT_DIR$/feature/book/presentation" />
             <option value="$PROJECT_DIR$/feature/books" />
             <option value="$PROJECT_DIR$/feature/books/domain" />

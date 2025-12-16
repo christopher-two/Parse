@@ -149,11 +149,9 @@ internal fun BookContent(
 
     KindlePaperView(
         fullChapterText = currentChapter?.content ?: "",
-        onTapPage = { },
         paddingValues = paddingValues,
         contentPadding = PaddingValues(
-            top = 60.dp, // Espacio para que no choque con la TopBar si está visible
-            bottom = 80.dp,
+            bottom = 60.dp,
             start = 24.dp,
             end = 24.dp
         ),

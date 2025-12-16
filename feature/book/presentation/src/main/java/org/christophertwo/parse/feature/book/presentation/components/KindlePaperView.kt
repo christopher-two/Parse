@@ -59,7 +59,6 @@ import kotlinx.coroutines.withContext
 internal fun KindlePaperView(
     paddingValues: PaddingValues,
     fullChapterText: String,
-    onTapPage: () -> Unit,
     nextChapterTitle: String?,
     onNavigateToNextChapter: () -> Unit,
     contentPadding: PaddingValues = PaddingValues(16.dp),
@@ -123,7 +122,6 @@ internal fun KindlePaperView(
                 pages = pages,
                 textStyle = textStyle,
                 contentPadding = contentPadding,
-                onTapPage = onTapPage,
                 nextChapterTitle = nextChapterTitle,
                 onNavigateToNextChapter = onNavigateToNextChapter
             )
@@ -153,7 +151,6 @@ private fun KindleLoadingView(modifier: Modifier = Modifier) {
  * @param totalPages El número total de páginas.
  * @param textStyle El estilo a aplicar al texto principal.
  * @param contentPadding El padding a aplicar alrededor del contenido.
- * @param onTapPage La acción a ejecutar cuando se hace tap en la página.
  * @param modifier Modificador para el contenedor de la página.
  */
 @Composable
@@ -163,17 +160,11 @@ private fun KindlePage(
     totalPages: Int,
     textStyle: TextStyle,
     contentPadding: PaddingValues,
-    onTapPage: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Box(
         modifier = modifier
             .fillMaxSize()
-            .clickable(
-                interactionSource = remember { MutableInteractionSource() },
-                indication = null,
-                onClick = onTapPage
-            )
             .padding(contentPadding),
         contentAlignment = Alignment.TopStart
     ) {
@@ -181,14 +172,6 @@ private fun KindlePage(
             text = text,
             style = textStyle,
             modifier = Modifier.fillMaxSize()
-        )
-
-        Text(
-            text = "$pageNumber / $totalPages",
-            style = MaterialTheme.typography.labelSmall.copy(color = Color.Gray),
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .padding(top = 16.dp)
         )
     }
 }
@@ -199,7 +182,6 @@ private fun KindlePage(
  * @param pages La lista de strings, donde cada string es una página.
  * @param textStyle El estilo a aplicar al texto de las páginas.
  * @param contentPadding El padding a aplicar al contenido de cada página.
- * @param onTapPage La acción a ejecutar al hacer tap en una página.
  * @param nextChapterTitle Título del siguiente capítulo, para mostrarlo en la última página.
  * @param onNavigateToNextChapter Lambda para navegar al siguiente capítulo.
  * @param modifier Modificador para el HorizontalPager.
@@ -209,7 +191,6 @@ private fun KindlePagerContent(
     pages: List<String>,
     textStyle: TextStyle,
     contentPadding: PaddingValues,
-    onTapPage: () -> Unit,
     nextChapterTitle: String?,
     onNavigateToNextChapter: () -> Unit,
     modifier: Modifier = Modifier,
@@ -226,8 +207,7 @@ private fun KindlePagerContent(
                 pageNumber = pageIndex + 1,
                 totalPages = pages.size,
                 textStyle = textStyle,
-                contentPadding = contentPadding,
-                onTapPage = onTapPage
+                contentPadding = contentPadding
             )
         } else {
             NextChapterPage(
