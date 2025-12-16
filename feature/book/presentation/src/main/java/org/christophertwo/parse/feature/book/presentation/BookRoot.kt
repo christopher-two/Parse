@@ -1,9 +1,6 @@
 package org.christophertwo.parse.feature.book.presentation
 
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Edit
@@ -40,6 +37,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.christophertwo.parse.core.ui.ParseTheme
+import org.christophertwo.parse.domain.models.chapter.Chapter
+import org.christophertwo.parse.feature.book.presentation.components.KindlePaperView
 
 @Composable
 fun BookRoot(
@@ -55,7 +54,7 @@ fun BookRoot(
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun BookScreen(
+internal fun BookScreen(
     state: BookState,
     onAction: (BookAction) -> Unit,
 ) {
@@ -68,9 +67,11 @@ fun BookScreen(
 
     var expanded by remember { mutableStateOf(false) }
 
+    val currentChapter = state.book?.chapters?.getOrNull(state.currentChapterIndex)
+
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-        topBar = { BookTopBar(scrollBehavior) },
+        topBar = { BookTopBar(scrollBehavior, currentChapter ?: Chapter()) },
         floatingActionButton = {
             HorizontalFloatingToolbar(
                 expanded = expanded,
@@ -118,6 +119,8 @@ fun BookScreen(
         content = { paddingValues ->
             BookContent(
                 paddingValues = paddingValues,
+                bookState = state,
+                onAction = onAction
             )
         }
     )
@@ -125,26 +128,40 @@ fun BookScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BookTopBar(scrollBehavior: TopAppBarScrollBehavior) {
+internal fun BookTopBar(
+    scrollBehavior: TopAppBarScrollBehavior,
+    chapter: Chapter
+) {
     CenterAlignedTopAppBar(
-        title = { Text("Capitulo 1") },
+        title = { Text(chapter.title) },
         scrollBehavior = scrollBehavior
     )
 }
 
 @Composable
-fun BookContent(paddingValues: PaddingValues) {
-    LazyColumn(
-        contentPadding = paddingValues,
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        items(50) { index ->
-            Text(
-                text = "Parrafo #$index",
-                modifier = Modifier.padding(16.dp)
-            )
-        }
-    }
+internal fun BookContent(
+    paddingValues: PaddingValues,
+    bookState: BookState,
+    onAction: (BookAction) -> Unit
+) {
+    val currentChapter = bookState.book?.chapters?.getOrNull(bookState.currentChapterIndex)
+    val nextChapter = bookState.book?.chapters?.getOrNull(bookState.currentChapterIndex + 1)
+
+    KindlePaperView(
+        fullChapterText = currentChapter?.content ?: "",
+        onTapPage = { },
+        paddingValues = paddingValues,
+        contentPadding = PaddingValues(
+            top = 60.dp, // Espacio para que no choque con la TopBar si está visible
+            bottom = 80.dp,
+            start = 24.dp,
+            end = 24.dp
+        ),
+        nextChapterTitle = nextChapter?.title,
+        onNavigateToNextChapter = {
+            onAction(BookAction.NavigateToNextChapter)
+        },
+    )
 }
 
 @Preview

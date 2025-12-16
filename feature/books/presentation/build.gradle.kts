@@ -44,6 +44,9 @@ dependencies {
     implementation(project(":feature:books:domain"))
     implementation(project(":feature:navigation"))
 
+    implementation(project(":domain:models"))
+    implementation(project(":domain:usecase"))
+
     // Compose
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

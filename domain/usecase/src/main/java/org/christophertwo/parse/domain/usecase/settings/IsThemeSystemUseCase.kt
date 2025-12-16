@@ -1,4 +1,4 @@
-package org.christophertwo.parse.feature.settings.domain
+package org.christophertwo.parse.domain.usecase.settings
 
 import kotlinx.coroutines.flow.Flow
 import org.christophertwo.parse.data.settings.api.SettingsRepository

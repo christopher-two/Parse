@@ -1,4 +1,4 @@
-package org.christophertwo.parse
+package org.christophertwo.parse.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -6,8 +6,8 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
-import org.christophertwo.parse.feature.settings.domain.IsDarkThemeUseCase
-import org.christophertwo.parse.feature.settings.domain.IsThemeSystemUseCase
+import org.christophertwo.parse.domain.usecase.settings.IsDarkThemeUseCase
+import org.christophertwo.parse.domain.usecase.settings.IsThemeSystemUseCase
 
 sealed interface StartupUiState {
     data object Loading : StartupUiState

@@ -117,7 +117,7 @@ fun SettingsSwitch(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .height(150.dp),
+            .height(100.dp),
         colors = CardDefaults.cardColors(
             containerColor = colorScheme.surfaceContainer,
             contentColor = colorScheme.onSurface,

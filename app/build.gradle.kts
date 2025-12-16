@@ -50,6 +50,9 @@ dependencies {
     implementation(project(":data:settings:api"))
     implementation(project(":data:settings:impl:datastore"))
 
+    implementation(project(":domain:models"))
+    implementation(project(":domain:usecase"))
+
     implementation(project(":feature:navigation"))
 
     implementation(project(":feature:home:presentation"))

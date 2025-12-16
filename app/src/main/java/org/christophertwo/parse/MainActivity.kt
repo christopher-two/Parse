@@ -10,6 +10,9 @@ import androidx.compose.runtime.getValue
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.christophertwo.parse.core.ui.ParseTheme
+import org.christophertwo.parse.main.RootNavigationWrapper
+import org.christophertwo.parse.main.StartupUiState
+import org.christophertwo.parse.main.StartupViewModel
 import org.koin.androidx.compose.koinViewModel
 
 class MainActivity : ComponentActivity() {

@@ -1,4 +1,4 @@
-package org.christophertwo.parse
+package org.christophertwo.parse.main
 
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInHorizontally

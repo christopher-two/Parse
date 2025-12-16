@@ -45,6 +45,9 @@ dependencies {
 
     implementation(project(":feature:settings:domain"))
 
+    implementation(project(":domain:models"))
+    implementation(project(":domain:usecase"))
+
     // Compose
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

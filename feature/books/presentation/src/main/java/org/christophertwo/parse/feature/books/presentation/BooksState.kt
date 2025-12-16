@@ -1,7 +1,7 @@
 package org.christophertwo.parse.feature.books.presentation
 
 import androidx.core.net.toUri
-import org.christophertwo.parse.core.common.model.Book
+import org.christophertwo.parse.domain.models.book.Book
 
 data class BooksState(
     val books: List<Book>? = listOf(

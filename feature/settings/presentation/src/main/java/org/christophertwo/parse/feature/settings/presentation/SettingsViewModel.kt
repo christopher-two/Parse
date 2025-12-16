@@ -9,10 +9,10 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import org.christophertwo.parse.feature.settings.domain.IsDarkThemeUseCase
-import org.christophertwo.parse.feature.settings.domain.IsThemeSystemUseCase
-import org.christophertwo.parse.feature.settings.domain.SetDarkThemeUseCase
-import org.christophertwo.parse.feature.settings.domain.SetThemeSystemUseCase
+import org.christophertwo.parse.domain.usecase.settings.IsDarkThemeUseCase
+import org.christophertwo.parse.domain.usecase.settings.IsThemeSystemUseCase
+import org.christophertwo.parse.domain.usecase.settings.SetDarkThemeUseCase
+import org.christophertwo.parse.domain.usecase.settings.SetThemeSystemUseCase
 
 class SettingsViewModel(
     private val isDarkThemeUseCase: IsDarkThemeUseCase,
