@@ -15,5 +15,8 @@ sealed class RouteGlobal: NavKey {
     data class Book(val id: String) : RouteHome()
 
     @Serializable
+    data object Auth : RouteGlobal()
+
+    @Serializable
     data object Error : RouteHome()
 }

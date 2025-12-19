@@ -23,6 +23,8 @@
             <option value="$PROJECT_DIR$/domain/models" />
             <option value="$PROJECT_DIR$/domain/usecase" />
             <option value="$PROJECT_DIR$/feature" />
+            <option value="$PROJECT_DIR$/feature/auth" />
+            <option value="$PROJECT_DIR$/feature/auth/presentation" />
             <option value="$PROJECT_DIR$/feature/book" />
             <option value="$PROJECT_DIR$/feature/book/data" />
             <option value="$PROJECT_DIR$/feature/book/domain" />

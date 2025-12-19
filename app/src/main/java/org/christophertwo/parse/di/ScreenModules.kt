@@ -2,6 +2,8 @@ package org.christophertwo.parse.di
 
 import org.christophertwo.parse.core.common.route.RouteGlobal
 import org.christophertwo.parse.core.common.route.RouteHome
+import org.christophertwo.parse.feature.auth.presentation.AuthRoot
+import org.christophertwo.parse.feature.auth.presentation.AuthViewModel
 import org.christophertwo.parse.feature.book.presentation.BookRoot
 import org.christophertwo.parse.feature.book.presentation.BookViewModel
 import org.christophertwo.parse.feature.books.presentation.BooksRoot
@@ -29,6 +31,7 @@ val ScreenModules: Module
         navigation<RouteGlobal.Book> { route ->
             BookRoot(viewModel = koinViewModel { parametersOf(route.id) })
         }
+        navigation<RouteGlobal.Auth> { AuthRoot(viewModel = koinViewModel()) }
 
         // Home
         navigation<RouteHome.Books> { BooksRoot(viewModel = koinViewModel()) }
@@ -37,6 +40,7 @@ val ScreenModules: Module
         viewModelOf(::HomeViewModel)
         viewModelOf(::BooksViewModel)
         viewModelOf(::SettingsViewModel)
+        viewModelOf(::AuthViewModel)
         viewModel { params -> BookViewModel(id = params.get()) }
 
         viewModelOf(::StartupViewModel)

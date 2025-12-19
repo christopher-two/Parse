@@ -46,11 +46,8 @@ android {
 
     buildTypes {
         release {
-            // IMPORTANTE: Habilitar esto reduce el tamaño y ofusca el código
             isMinifyEnabled = true
             isShrinkResources = true
-
-            // Carga la firma definida arriba
             signingConfig = signingConfigs.getByName("release")
 
             proguardFiles(
@@ -106,6 +103,8 @@ dependencies {
 
     implementation(project(":feature:settings:presentation"))
     implementation(project(":feature:settings:domain"))
+
+    implementation(project(":feature:auth:presentation"))
 
     implementation(project(":feature:book:presentation"))
 
