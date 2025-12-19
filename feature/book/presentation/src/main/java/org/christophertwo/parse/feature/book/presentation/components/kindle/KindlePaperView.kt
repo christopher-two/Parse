@@ -1,25 +1,14 @@
-package org.christophertwo.parse.feature.book.presentation.components
+package org.christophertwo.parse.feature.book.presentation.components.kindle
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material3.ContainedLoadingIndicator
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -30,10 +19,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.Dispatchers
@@ -89,9 +78,9 @@ internal fun KindlePaperView(
         val boxHeight = maxHeight
 
         val horizontalPaddingPx = with(density) {
-            contentPadding.calculateLeftPadding(androidx.compose.ui.unit.LayoutDirection.Ltr)
+            contentPadding.calculateLeftPadding(LayoutDirection.Ltr)
                 .toPx() +
-                    contentPadding.calculateRightPadding(androidx.compose.ui.unit.LayoutDirection.Ltr)
+                    contentPadding.calculateRightPadding(LayoutDirection.Ltr)
                         .toPx()
         }
         val verticalPaddingPx = with(density) {
@@ -139,112 +128,5 @@ internal fun KindlePaperView(
 private fun KindleLoadingView(modifier: Modifier = Modifier) {
     Box(modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         ContainedLoadingIndicator()
-    }
-}
-
-/**
- * Muestra el contenido de una única página, incluyendo el texto principal
- * y el número de página.
- *
- * @param text El texto de la página a mostrar.
- * @param pageNumber El número de la página actual.
- * @param totalPages El número total de páginas.
- * @param textStyle El estilo a aplicar al texto principal.
- * @param contentPadding El padding a aplicar alrededor del contenido.
- * @param modifier Modificador para el contenedor de la página.
- */
-@Composable
-private fun KindlePage(
-    text: String,
-    pageNumber: Int,
-    totalPages: Int,
-    textStyle: TextStyle,
-    contentPadding: PaddingValues,
-    modifier: Modifier = Modifier
-) {
-    Box(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(contentPadding),
-        contentAlignment = Alignment.TopStart
-    ) {
-        Text(
-            text = text,
-            style = textStyle,
-            modifier = Modifier.fillMaxSize()
-        )
-    }
-}
-
-/**
- * Contenedor que gestiona el HorizontalPager para mostrar las páginas del libro.
- *
- * @param pages La lista de strings, donde cada string es una página.
- * @param textStyle El estilo a aplicar al texto de las páginas.
- * @param contentPadding El padding a aplicar al contenido de cada página.
- * @param nextChapterTitle Título del siguiente capítulo, para mostrarlo en la última página.
- * @param onNavigateToNextChapter Lambda para navegar al siguiente capítulo.
- * @param modifier Modificador para el HorizontalPager.
- */
-@Composable
-private fun KindlePagerContent(
-    pages: List<String>,
-    textStyle: TextStyle,
-    contentPadding: PaddingValues,
-    nextChapterTitle: String?,
-    onNavigateToNextChapter: () -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    val pagerState = rememberPagerState(pageCount = { pages.size + 1 })
-
-    HorizontalPager(
-        state = pagerState,
-        modifier = modifier.fillMaxSize()
-    ) { pageIndex ->
-        if (pageIndex < pages.size) {
-            KindlePage(
-                text = pages[pageIndex],
-                pageNumber = pageIndex + 1,
-                totalPages = pages.size,
-                textStyle = textStyle,
-                contentPadding = contentPadding
-            )
-        } else {
-            NextChapterPage(
-                nextChapterTitle = nextChapterTitle,
-                onNavigateToNextChapter = onNavigateToNextChapter
-            )
-        }
-    }
-}
-
-/**
- * Página que se muestra al final de un capítulo para navegar al siguiente.
- *
- * @param nextChapterTitle El título del siguiente capítulo. Puede ser nulo.
- * @param onNavigateToNextChapter La acción a ejecutar para navegar al siguiente capítulo.
- * @param modifier Modificador para el contenedor de la página.
- */
-@Composable
-private fun NextChapterPage(
-    nextChapterTitle: String?,
-    onNavigateToNextChapter: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    Box(
-        modifier = modifier
-            .fillMaxSize()
-            .clickable(onClick = onNavigateToNextChapter),
-        contentAlignment = Alignment.Center
-    ) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Text("Siguiente Capítulo", style = MaterialTheme.typography.titleLarge)
-            nextChapterTitle?.let {
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(it, style = MaterialTheme.typography.bodyMedium)
-            }
-            Spacer(modifier = Modifier.height(16.dp))
-            Icon(Icons.Default.ArrowForward, contentDescription = "Siguiente Capítulo")
-        }
     }
 }

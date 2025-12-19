@@ -1,6 +1,5 @@
 package org.christophertwo.parse.di
 
-import org.christophertwo.parse.main.StartupViewModel
 import org.christophertwo.parse.core.common.route.RouteGlobal
 import org.christophertwo.parse.core.common.route.RouteHome
 import org.christophertwo.parse.feature.book.presentation.BookRoot
@@ -11,6 +10,7 @@ import org.christophertwo.parse.feature.home.presentation.HomeRoot
 import org.christophertwo.parse.feature.home.presentation.HomeViewModel
 import org.christophertwo.parse.feature.settings.presentation.SettingsRoot
 import org.christophertwo.parse.feature.settings.presentation.SettingsViewModel
+import org.christophertwo.parse.main.StartupViewModel
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 import org.koin.core.module.Module
@@ -27,11 +27,7 @@ val ScreenModules: Module
         navigation<RouteGlobal.Home> { HomeRoot(viewModel = koinViewModel()) }
         navigation<RouteGlobal.Settings> { SettingsRoot(viewModel = koinViewModel()) }
         navigation<RouteGlobal.Book> { route ->
-            BookRoot(
-                viewModel = koinViewModel {
-                    parametersOf(route.id)
-                }
-            )
+            BookRoot(viewModel = koinViewModel { parametersOf(route.id) })
         }
 
         // Home
@@ -41,11 +37,7 @@ val ScreenModules: Module
         viewModelOf(::HomeViewModel)
         viewModelOf(::BooksViewModel)
         viewModelOf(::SettingsViewModel)
-        viewModel { params ->
-            BookViewModel(
-                id = params.get()
-            )
-        }
+        viewModel { params -> BookViewModel(id = params.get()) }
 
         viewModelOf(::StartupViewModel)
     }

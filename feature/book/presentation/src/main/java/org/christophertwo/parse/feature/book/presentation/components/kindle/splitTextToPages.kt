@@ -1,8 +1,7 @@
-package org.christophertwo.parse.feature.book.presentation.components
+package org.christophertwo.parse.feature.book.presentation.components.kindle
 
 import androidx.compose.ui.text.TextMeasurer
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.Density
 import kotlin.math.floor
@@ -73,7 +72,7 @@ internal fun splitTextToPages(
         // Aseguramos que el índice no sea 0 para evitar bucles infinitos si algo falla
         if (lastVisibleCharIndex == 0) lastVisibleCharIndex = remainingText.length
 
-        val pageContent = remainingText.substring(0, lastVisibleCharIndex)
+        val pageContent = remainingText.take(lastVisibleCharIndex)
         pages.add(pageContent)
 
         // 5. Preparamos el texto restante para la siguiente iteración
