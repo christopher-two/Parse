@@ -42,6 +42,7 @@ dependencies {
     implementation(project(":core:ui"))
 
     implementation(project(":feature:navigation"))
+    implementation(project(":feature:home:domain"))
 
     // Compose
     implementation(libs.androidx.core.ktx)

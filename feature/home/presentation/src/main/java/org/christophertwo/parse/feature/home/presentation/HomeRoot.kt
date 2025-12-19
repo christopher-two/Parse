@@ -7,8 +7,10 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialShapes
 import androidx.compose.material3.MediumFloatingActionButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.toShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -57,6 +59,7 @@ internal fun HomeScreen(
         content = { paddingValues -> HomeContent(paddingValues, homeNavigator, entryProvider) },
         floatingActionButton = {
             MediumFloatingActionButton(
+                shape = MaterialShapes.Clover8Leaf.toShape(),
                 onClick = {
                     onAction(HomeAction.AddBook)
                 },

@@ -12,6 +12,7 @@ import org.christophertwo.parse.domain.usecase.settings.SetDarkThemeUseCase
 import org.christophertwo.parse.domain.usecase.settings.SetFontSizeUseCase
 import org.christophertwo.parse.domain.usecase.settings.SetThemeColorUseCase
 import org.christophertwo.parse.domain.usecase.settings.SetThemeSystemUseCase
+import org.christophertwo.parse.feature.home.domain.ImportPdfUseCase
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
@@ -35,4 +36,7 @@ val DomainModule: Module
 
         singleOf(::GetContrastUseCase)
         singleOf(::SetContrastUseCase)
+
+        // Home
+        singleOf(::ImportPdfUseCase)
     }

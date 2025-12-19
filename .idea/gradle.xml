@@ -33,6 +33,8 @@
             <option value="$PROJECT_DIR$/feature/books/domain" />
             <option value="$PROJECT_DIR$/feature/books/presentation" />
             <option value="$PROJECT_DIR$/feature/home" />
+            <option value="$PROJECT_DIR$/feature/home/data" />
+            <option value="$PROJECT_DIR$/feature/home/domain" />
             <option value="$PROJECT_DIR$/feature/home/presentation" />
             <option value="$PROJECT_DIR$/feature/navigation" />
             <option value="$PROJECT_DIR$/feature/settings" />

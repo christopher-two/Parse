@@ -5,12 +5,12 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -21,12 +21,10 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.filled.Save
 import androidx.compose.material.icons.filled.UploadFile
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.CircularWavyProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
@@ -35,14 +33,13 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialShapes
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.toShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import org.christophertwo.parse.feature.home.presentation.HomeAction
@@ -87,6 +84,7 @@ private fun AddBookInitialState(state: HomeState, onAction: (HomeAction) -> Unit
     ) { uri: android.net.Uri? ->
         uri?.let { onAction(HomeAction.BookSelected(it)) }
     }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -94,38 +92,60 @@ private fun AddBookInitialState(state: HomeState, onAction: (HomeAction) -> Unit
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
         content = {
-            CustomTextField(
-                value = state.bookUri,
-                onValueChange = { bookUri -> onAction(HomeAction.BookUri(bookUri)) },
-                label = "Book URL",
-                modifier = Modifier.fillMaxWidth(),
+            if (state.isImportingPdf) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    CircularWavyProgressIndicator(modifier = Modifier.size(28.dp))
+                    Text(
+                        text = "Importando PDF…",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+                return@Column
+            }
+
+            state.importPdfError?.let { msg ->
+                Text(
+                    text = msg,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.error,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(12.dp))
+                        .background(MaterialTheme.colorScheme.errorContainer)
+                        .padding(12.dp)
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+            }
+
+            Text(
+                text = "Selecciona un PDF desde tu dispositivo",
+                style = MaterialTheme.typography.titleMedium,
             )
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            Surface(
-                shape = MaterialTheme.shapes.extraExtraLarge,
-                color = MaterialTheme.colorScheme.surfaceContainer,
+            IconButton(
+                onClick = { launcher.launch("application/pdf") },
+                modifier = Modifier.size(56.dp)
             ) {
-                Row(
-                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-                    horizontalArrangement = Arrangement.spacedBy(16.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    IconButton(onClick = { onAction(HomeAction.DownloadBook) }) {
-                        Icon(
-                            imageVector = Icons.Filled.Download,
-                            contentDescription = "Add book",
-                        )
-                    }
-                    IconButton(onClick = { launcher.launch("application/pdf") }) {
-                        Icon(
-                            imageVector = Icons.Filled.UploadFile,
-                            contentDescription = "Upload from device"
-                        )
-                    }
-                }
+                Icon(
+                    imageVector = Icons.Filled.UploadFile,
+                    contentDescription = "Seleccionar PDF",
+                    modifier = Modifier.size(32.dp)
+                )
             }
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            Text(
+                text = "PDF",
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
         }
     )
 }
@@ -150,6 +170,19 @@ private fun AddBookLoadedState(state: HomeState, onAction: (HomeAction) -> Unit)
         verticalArrangement = Arrangement.spacedBy(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         content = {
+            state.importedPdfPath?.let { path ->
+                Text(
+                    text = "PDF importado en: $path",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(12.dp))
+                        .background(MaterialTheme.colorScheme.surfaceContainer)
+                        .padding(12.dp)
+                )
+            }
+
             Box(
                 modifier = Modifier.clickable {
                     singlePhotoPickerLauncher.launch(

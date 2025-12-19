@@ -7,8 +7,14 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import org.christophertwo.parse.feature.home.domain.ImportPdfError
+import org.christophertwo.parse.feature.home.domain.ImportPdfResult
+import org.christophertwo.parse.feature.home.domain.ImportPdfUseCase
 
-class HomeViewModel : ViewModel() {
+class HomeViewModel(
+    private val importPdfUseCase: ImportPdfUseCase,
+) : ViewModel() {
 
     private var hasLoadedInitialData = false
 
@@ -41,10 +47,12 @@ class HomeViewModel : ViewModel() {
                     it.copy(
                         showBottomSheet = false,
                         bookDownloaded = false,
-                        bookUri = "",
                         titleBook = "",
                         imageBook = null,
-                        bookSelected = null
+                        bookSelected = null,
+                        isImportingPdf = false,
+                        importedPdfPath = null,
+                        importPdfError = null,
                     )
                 }
             }
@@ -65,30 +73,39 @@ class HomeViewModel : ViewModel() {
                 }
             }
 
-            is HomeAction.BookUri -> {
-                _state.update {
-                    it.copy(
-                        bookUri = action.uri,
-                    )
-                }
-            }
-
-            HomeAction.DownloadBook -> {
-                // TODO: Implement book download logic
-                _state.update {
-                    it.copy(
-                        bookDownloaded = true
-                    )
-                }
-            }
 
             is HomeAction.BookSelected -> {
-                // TODO: Implement book processing logic
+                // Importar PDF: copiar a almacenamiento privado
                 _state.update {
                     it.copy(
                         bookSelected = action.uri,
-                        bookDownloaded = true
+                        isImportingPdf = true,
+                        importPdfError = null,
+                        importedPdfPath = null,
                     )
+                }
+
+                viewModelScope.launch {
+                    when (val result = importPdfUseCase(action.uri.toString())) {
+                        is ImportPdfResult.Success -> {
+                            _state.update {
+                                it.copy(
+                                    isImportingPdf = false,
+                                    importedPdfPath = result.pdf.absolutePath,
+                                    bookDownloaded = true,
+                                )
+                            }
+                        }
+
+                        is ImportPdfResult.Error -> {
+                            _state.update {
+                                it.copy(
+                                    isImportingPdf = false,
+                                    importPdfError = result.error.toUiMessage(),
+                                )
+                            }
+                        }
+                    }
                 }
             }
 
@@ -96,5 +113,12 @@ class HomeViewModel : ViewModel() {
                 // TODO: Implement book saving logic
             }
         }
+    }
+
+    private fun ImportPdfError.toUiMessage(): String = when (this) {
+        ImportPdfError.InvalidUri -> "URI inválida"
+        ImportPdfError.NotPdf -> "El archivo seleccionado no es un PDF"
+        ImportPdfError.OpenFailed -> "No se pudo abrir el archivo"
+        ImportPdfError.CopyFailed -> "No se pudo copiar el archivo a almacenamiento privado"
     }
 }

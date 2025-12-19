@@ -7,8 +7,11 @@ data class HomeState(
     val titleBook: String = "",
     val imageBook: Uri? = null,
     val pagesBook: Int = 0,
-    val bookUri: String = "",
     val bookDownloaded: Boolean = false,
     val isSaving: Boolean = false,
     val bookSelected: Uri? = null,
+    // Import PDF
+    val isImportingPdf: Boolean = false,
+    val importedPdfPath: String? = null,
+    val importPdfError: String? = null,
 )

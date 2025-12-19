@@ -5,6 +5,8 @@ import org.christophertwo.parse.data.settings.api.di.DiQualifiers
 import org.christophertwo.parse.data.settings.api.sessionDataStore
 import org.christophertwo.parse.data.settings.api.settingsDataStore
 import org.christophertwo.parse.data.settings.impl.datastore.SettingsRepositoryImpl
+import org.christophertwo.parse.feature.home.data.HomeRepositoryImpl
+import org.christophertwo.parse.feature.home.domain.HomeRepository
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.Module
 import org.koin.dsl.module
@@ -21,4 +23,7 @@ val DataModule: Module
         single<SettingsRepository> {
             SettingsRepositoryImpl(get(qualifier = DiQualifiers.SETTINGS_DATASTORE))
         }
+
+        // Home
+        single<HomeRepository> { HomeRepositoryImpl(appContext = androidContext()) }
     }
