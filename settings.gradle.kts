@@ -19,7 +19,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "parse"
+rootProject.name = "Parse"
 include(":app")
 include(":core:ui")
 include(":core:common")

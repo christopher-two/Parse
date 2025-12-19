@@ -31,14 +31,10 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
-
-        //resourceConfigurations.addAll(listOf("en", "es"))
     }
 
-    // Configuración de firma para Release
     signingConfigs {
         create("release") {
-            // Solo carga la configuración si el archivo existe para evitar errores de compilación local
             if (keystorePropertiesFile.exists()) {
                 keyAlias = keystoreProperties["keyAlias"] as String
                 keyPassword = keystoreProperties["keyPassword"] as String
@@ -65,7 +61,7 @@ android {
 
         debug {
             isMinifyEnabled = false
-            applicationIdSuffix = ".debug" // Útil para tener ambas apps instaladas al mismo tiempo
+            applicationIdSuffix = ".debu"
         }
     }
 

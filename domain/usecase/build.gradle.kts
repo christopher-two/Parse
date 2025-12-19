@@ -40,6 +40,7 @@ dependencies {
 
     // Modules
     implementation(project(":data:settings:api"))
+    implementation(project(":domain:models"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

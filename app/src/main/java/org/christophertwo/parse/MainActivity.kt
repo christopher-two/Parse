@@ -7,6 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.graphics.Color
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.christophertwo.parse.core.ui.ParseTheme
@@ -29,8 +30,18 @@ class MainActivity : ComponentActivity() {
 
             val darkTheme = shouldUseDarkTheme(uiState)
 
+            val themeColor = (uiState as? StartupUiState.Success)?.themeColor
+            val fontSize = (uiState as? StartupUiState.Success)?.fontSize ?: 1.0f
+            val isAmoled = (uiState as? StartupUiState.Success)?.isAmoledTheme ?: false
+            val contrast = (uiState as? StartupUiState.Success)?.contrast
+                ?: org.christophertwo.parse.domain.models.settings.Contrast.MEDIUM
+
             ParseTheme(
-                isDark = darkTheme
+                isDark = darkTheme,
+                isAmoled = isAmoled,
+                seedColor = Color(themeColor ?: 0xFF009688.toInt()),
+                contrast = contrast,
+                fontSize = fontSize,
             ) {
                 RootNavigationWrapper()
             }
