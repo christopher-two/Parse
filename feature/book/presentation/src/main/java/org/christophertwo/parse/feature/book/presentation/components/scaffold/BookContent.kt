@@ -3,6 +3,7 @@ package org.christophertwo.parse.feature.book.presentation.components.scaffold
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
+import org.christophertwo.parse.domain.models.chapter.Chapter
 import org.christophertwo.parse.feature.book.presentation.BookAction
 import org.christophertwo.parse.feature.book.presentation.BookState
 import org.christophertwo.parse.feature.book.presentation.components.kindle.KindlePaperView
@@ -11,7 +12,7 @@ import org.christophertwo.parse.feature.book.presentation.components.kindle.Kind
 internal fun BookContent(
     paddingValues: PaddingValues,
     bookState: BookState,
-    onAction: (BookAction) -> Unit
+    onAction: (BookAction) -> Unit,
 ) {
     val currentChapter = bookState.book?.chapters?.getOrNull(bookState.currentChapterIndex)
     val nextChapter = bookState.book?.chapters?.getOrNull(bookState.currentChapterIndex + 1)
@@ -19,6 +20,7 @@ internal fun BookContent(
     KindlePaperView(
         fullChapterText = currentChapter?.content ?: "",
         paddingValues = paddingValues,
+        currentChapterTitle = currentChapter?.title ?: "",
         contentPadding = PaddingValues(
             bottom = 60.dp,
             start = 24.dp,

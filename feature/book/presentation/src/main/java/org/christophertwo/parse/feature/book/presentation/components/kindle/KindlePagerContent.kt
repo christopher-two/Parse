@@ -26,6 +26,7 @@ internal fun KindlePagerContent(
     nextChapterTitle: String?,
     onNavigateToNextChapter: () -> Unit,
     modifier: Modifier = Modifier,
+    currentChapterTitle: String,
 ) {
     val pagerState = rememberPagerState(pageCount = { pages.size + 1 })
 
@@ -44,7 +45,8 @@ internal fun KindlePagerContent(
         } else {
             NextChapterPage(
                 nextChapterTitle = nextChapterTitle,
-                onNavigateToNextChapter = onNavigateToNextChapter
+                onNavigateToNextChapter = onNavigateToNextChapter,
+                actualChapterTitle = currentChapterTitle
             )
         }
     }

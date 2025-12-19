@@ -52,7 +52,8 @@ internal fun KindlePaperView(
     onNavigateToNextChapter: () -> Unit,
     contentPadding: PaddingValues = PaddingValues(16.dp),
     textColor: Color = MaterialTheme.colorScheme.onSurface,
-    backgroundColor: Color = MaterialTheme.colorScheme.surface
+    backgroundColor: Color = MaterialTheme.colorScheme.surface,
+    currentChapterTitle: String
 ) {
     val textStyle = MaterialTheme.typography.bodyLarge.copy(
         fontFamily = FontFamily.Serif,
@@ -112,7 +113,8 @@ internal fun KindlePaperView(
                 textStyle = textStyle,
                 contentPadding = contentPadding,
                 nextChapterTitle = nextChapterTitle,
-                onNavigateToNextChapter = onNavigateToNextChapter
+                onNavigateToNextChapter = onNavigateToNextChapter,
+                currentChapterTitle = currentChapterTitle
             )
         }
     }
