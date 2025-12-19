@@ -6,6 +6,8 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.jetbrains.kotlin.serialization)
+    alias(libs.plugins.room)
+    alias(libs.plugins.google.devtools.ksp)
 }
 val keystorePropertiesFile = rootProject.file("keystore.properties")
 val keystoreProperties = Properties()
@@ -83,6 +85,10 @@ android {
     }
 }
 
+room {
+    schemaDirectory("$projectDir/schemas")
+}
+
 dependencies {
     // Modules
     implementation(project(":core:ui"))
@@ -154,6 +160,12 @@ dependencies {
     // Core & Kotlin X
     implementation(libs.kotlinx.datetime)
     implementation(libs.kotlinx.serialization)
+
+    // Room
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    implementation(libs.room.paging)
+    ksp(libs.room.compiler)
 
     // Test & Tools
     testImplementation(libs.junit)

@@ -76,6 +76,11 @@ dependencies {
     implementation(libs.kotlinx.datetime)
     implementation(libs.kotlinx.serialization)
 
+    // Room
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    implementation(libs.room.paging)
+
     // Test & Tools
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
